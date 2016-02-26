@@ -9,7 +9,7 @@ FROM python:2.7-onbuild
 ## Install our dependencies
 
 RUN apt-get update && \
-    apt-get -y install libxml2-dev libxslt1-dev zlib1g-dev build-essential && \
+    apt-get -y install libxml2-dev libxslt1-dev zlib1g-dev openssh-client build-essential && \
 #    pip install gunicorn==${GUNICORN_VERSION} && \
     apt-get -y autoremove && \
     apt-get clean
