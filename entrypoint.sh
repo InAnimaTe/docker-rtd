@@ -12,35 +12,44 @@
 cd readthedocs.org
 
 ## Collect Variables
+DB_LOCATION=${DB_LOCATION:-/persistent/dev.db}
 
-RTD_PRODUCTION_DOMAIN=${RTD_PRODUCTION_DOMAIN:-localhost:80}
+#export DJANGO_SETTINGS_MODULE="readthedocs.settings.sqlite"  # Which settings file should Django use
 
-export DJANGO_SETTINGS_MODULE="readthedocs.settings.sqlite"  # Which settings file should Django use
-
-export PYTHONPATH=$(pwd):$PYTHONPATH
+#export PYTHONPATH=$(pwd):$PYTHONPATH
 
 ## We check if this is a fresh install and act appropriately.
 
 NEW_INSTALL=${NEW_INSTALL:-no}
 TEST_DATA=${TEST_DATA:-no}
 
-if [ "$NEW_INSTALL" == "yes" ]; then
 
-	# Deploy the database
-	python ./manage.py migrate
+setupdb() {
+    # deploy the database
+    python ./manage.py migrate
 
-	# Create a super user
-	echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@localhost', 'admin')" | python ./manage.py shell
+    # create superuser
+    echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@localhost', 'admin')" | python ./manage.py shell
 
-	if [ "$TEST_DATA" == "yes" ]; then
-		# Load test data
-		python ./manage.py loaddata test_data
-	fi
+    if [ "$TEST_DATA" == "yes" ]; then
+        python ./manage.py loaddata test_data
+    fi
 
-	# Copy static files
-	#python ./manage.py collectstatic --noinput
+}
 
+if [ ! -f "$DB_LOCATION" ]; then
+    setupdb
 fi
 
+if [ "$NEW_INSTALL" == "yes" ]; then
+    rm -rf "$DB_LOCATION"
+    setupdb
+fi
+
+# collect static (this is always necessary since we never bind mount rtd
+
+echo "yes" | python ./manage.py collectstatic
+
+
 #exec "gunicorn" "$@"
-exec python ./manage.py runserver 0.0.0.0:80
+exec python ./manage.py "$@"

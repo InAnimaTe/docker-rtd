@@ -1,0 +1,10 @@
+# Any persistent data
+data*
+persistent*
+# ssh keys
+id_rsa*
+keys*
+
+# compose file (may have variables we don't want public)
+*.yml
+*.yaml

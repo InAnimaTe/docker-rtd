@@ -4,13 +4,13 @@ FROM python:2.7-onbuild
 # 2) Run pip install on ^
 # 3) COPY . /usr/src/app
 
-ENV GUNICORN_VERSION 19.3.0
+#ENV GUNICORN_VERSION 19.3.0
 
 ## Install our dependencies
 
 RUN apt-get update && \
     apt-get -y install libxml2-dev libxslt1-dev zlib1g-dev build-essential && \
-    pip install gunicorn==${GUNICORN_VERSION} && \
+#    pip install gunicorn==${GUNICORN_VERSION} && \
     apt-get -y autoremove && \
     apt-get clean
 
@@ -30,4 +30,8 @@ VOLUME ["/persistent"]
 
 ENTRYPOINT ["./entrypoint.sh"]
 ## Some defaults to pass to gunicorn/entrypoint
-CMD ["-b", "0.0.0.0:80", "-w", "2", "readthedocs.wsgi:application"]
+#CMD ["-b", "0.0.0.0:80", "-w", "2", "readthedocs.wsgi:application"]
+
+## Not using gunicorn, just manage.py Let's setup some defaults, which can be
+# changed at runtime by the user (just specify a new cmd)
+CMD ["runserver", "0.0.0.0:80"]
