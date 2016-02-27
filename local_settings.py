@@ -14,6 +14,12 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 # Enable private Git doc repositories
 ALLOW_PRIVATE_REPOS = True
 
+# Disable email for an account
+ACCOUNT_EMAIL_REQUIRED = False
+
+# Don't bother caring about email for auth
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+
 # Define where are our database lives
 DATABASES = {
     'default': {
