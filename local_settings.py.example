@@ -28,4 +28,8 @@ DATABASES = {
     }
 }
 
-
+# Configure the services that are setup through docker-compose.
+ES_HOSTS = ['elasticsearch:9200']
+BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_ALWAYS_EAGER = True

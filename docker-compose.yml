@@ -1,0 +1,32 @@
+rtd:
+    restart: always
+    build: .
+    volumes:
+        - ./db:/persistent
+    environment:
+        - "TEST_DATA=yes"
+        - "RTD_PRODUCTION_DOMAIN=production-domain:80"
+    links:
+        - elasticsearch
+        - redis
+nginx:
+    restart: always
+    image: nginx:1.9
+    ports:
+        - "80:80"
+    volumes:
+        - ./default.conf:/etc/nginx/conf.d/default.conf
+    links:
+        - rtd
+elasticsearch:
+    restart: always
+    image: elasticsearch:latest
+    command: elasticsearch -Des.network.host=0.0.0.0
+    ports:
+        - "9200:9200"
+        - "9300:9300"
+redis:
+    restart: always
+    image: redis:latest
+    ports:
+        - "6379:6379"

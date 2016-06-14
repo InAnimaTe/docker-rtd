@@ -20,9 +20,12 @@ RUN apt-get update && \
 RUN cp ./local_settings.py readthedocs.org/readthedocs/settings/local_settings.py
 
 ## Import our private key for cloning private repos
-#RUN mkdir /root/.ssh
-#RUN chmod 700 /root/.ssh
-#COPY key/id_rsa /root/.ssh/id_rsa
+RUN mkdir /root/.ssh
+RUN chmod 700 /root/.ssh
+COPY key/id_rsa /root/.ssh/id_rsa
+RUN chmod 700 /root/.ssh/id_rsa
+RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
+RUN echo "    IdentityFile /root/.ssh/id_rsa" >> /etc/ssh/ssh_config
 
 
 ## This is a volume for our database
