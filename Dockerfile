@@ -17,7 +17,7 @@ RUN apt-get update && \
 ## Apply our own overrides
 #COPY local_settings.py /usr/src/app/readthedocs.org/readthedocs/settings/local_settings.py
 
-RUN cp ./local_settings.py readthedocs.org/readthedocs/settings/local_settings.py
+RUN cp ./local_settings.py.example readthedocs.org/readthedocs/settings/local_settings.py
 
 ## Import our private key for cloning private repos
 RUN mkdir /root/.ssh
