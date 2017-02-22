@@ -7,6 +7,8 @@ PRODUCTION_DOMAIN = os.getenv('RTD_PRODUCTION_DOMAIN', 'localhost:8000')
 
 # Set the Slumber API host
 SLUMBER_API_HOST = os.getenv('RTD_SLUMBER_API_HOST', "http://" + PRODUCTION_DOMAIN)
+SLUMBER_USERNAME = 'admin'
+SLUMBER_PASSWORD = 'admin'
 
 # Turn off email verification
 ACCOUNT_EMAIL_VERIFICATION = 'none'

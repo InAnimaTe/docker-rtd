@@ -6,11 +6,6 @@
 # We basically setup the db for the first time, create our user, and 
 #
 ##
-
-## Lets cd into the readthedocs checkout
-
-cd readthedocs.org
-
 ## Collect Variables
 DB_LOCATION=${DB_LOCATION:-/persistent/dev.db}
 
