@@ -4,8 +4,8 @@ rtd:
     volumes:
         - ./db:/persistent
     environment:
-        - "TEST_DATA=yes"
-        - "RTD_PRODUCTION_DOMAIN=production-domain:80"
+        - "TEST_DATA=no"
+        - "RTD_PRODUCTION_DOMAIN=docs.planfront.net:80"
     links:
         - elasticsearch
         - redis
@@ -20,7 +20,7 @@ nginx:
         - rtd
 elasticsearch:
     restart: always
-    image: elasticsearch:latest
+    image: elasticsearch:2.3.2
     command: elasticsearch -Des.network.host=0.0.0.0
     ports:
         - "9200:9200"
