@@ -12,6 +12,7 @@ RUN apt-get update \
         texlive-latex-extra \
         texlive-latex-recommended \
         texlive-fonts-recommended \
+        python3 \
     && apt-get -y autoremove \
     && apt-get clean
 
