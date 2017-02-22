@@ -1,4 +1,5 @@
 rtd:
+    hostname: docs.planfront.net
     restart: always
     build: .
     volumes:
