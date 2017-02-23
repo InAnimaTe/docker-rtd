@@ -30,6 +30,38 @@ DATABASES = {
     }
 }
 
+# Reset the django logging to be sutiable for Docker use, by having everything
+# go to stdout, and also allow us to set them to DEBUG if we want
+LOG_FORMAT = "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s"
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': LOG_FORMAT,
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': os.getenv('LOG_LEVEL', 'INFO'),
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': os.getenv('LOG_LEVEL', 'INFO'),
+        },
+    }
+}
+
 # Configure the services that are setup through docker-compose.
 ES_HOSTS = ['elasticsearch:9200']
 BROKER_URL = 'redis://redis:6379/0'
