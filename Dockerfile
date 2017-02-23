@@ -18,10 +18,7 @@ RUN apt-get update \
 
 WORKDIR /usr/src/app/readthedocs.org
 
-## Apply our own overrides
-COPY local_settings.py.example /usr/src/app/readthedocs.org/readthedocs/settings/local_settings.py
-COPY entrypoint.sh ./
-
+## Install the python deps
 RUN pip install setuptools==19.2
 COPY readthedocs.org/requirements.txt ./
 COPY readthedocs.org/requirements/ ./requirements/
@@ -34,8 +31,6 @@ COPY key/id_rsa /root/.ssh/id_rsa
 RUN chmod 700 /root/.ssh/id_rsa
 RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 RUN echo "    IdentityFile /root/.ssh/id_rsa" >> /etc/ssh/ssh_config
-
-COPY readthedocs.org/ /usr/src/app/readthedocs.org/
 
 ## This is a volume for our database
 VOLUME ["/persistent"]

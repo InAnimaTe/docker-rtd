@@ -4,6 +4,9 @@ rtd:
     build: .
     volumes:
         - ./db:/persistent
+        - ./readthedocs.org/:/usr/src/app/readthedocs.org/
+        - ./entrypoint.sh:/usr/src/app/readthedocs.org/entrypoint.sh
+        - ./local_settings.py.example:/usr/src/app/readthedocs.org/readthedocs/settings/local_settings.py
     environment:
         - "TEST_DATA=no"
         - "RTD_PRODUCTION_DOMAIN=docs.planfront.net:80"
