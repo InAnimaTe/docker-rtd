@@ -10,3 +10,4 @@ keys*
 *.yaml
 
 local_settings.py
+db/
