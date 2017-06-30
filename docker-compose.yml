@@ -7,9 +7,12 @@ rtd:
         - ./readthedocs.org/:/usr/src/app/readthedocs.org/
         - ./entrypoint.sh:/usr/src/app/readthedocs.org/entrypoint.sh
         - ./local_settings.py.example:/usr/src/app/readthedocs.org/readthedocs/settings/local_settings.py
+        - ./conf.py.tmpl:/usr/src/app/readthedocs.org/readthedocs/doc_builder/templates/doc_builder/conf.py.tmpl
     environment:
         - "TEST_DATA=no"
         - "RTD_PRODUCTION_DOMAIN=docs.planfront.net:80"
+    extra_hosts:
+        - "docs.planfront.net:0.0.0.0"
     links:
         - elasticsearch
         - redis
@@ -24,7 +27,7 @@ nginx:
         - rtd
 elasticsearch:
     restart: always
-    image: elasticsearch:2.3.2
+    image: elasticsearch:1.4
     command: elasticsearch -Des.network.host=0.0.0.0
     ports:
         - "9200:9200"
