@@ -45,6 +45,9 @@ RUN echo "    IdentityFile /root/.ssh/id_rsa" >> /etc/ssh/ssh_config
 ## Move over our hotfix for Version links
 COPY conf.py.tmpl ./readthedocs/doc_builder/templates/doc_builder/conf.py.tmpl
 
+## Make sure we have the right host
+RUN echo "0.0.0.0 docs.planfront.net" >> /etc/hosts
+
 ## This is a volume for our database
 VOLUME ["/persistent"]
 CMD ["./entrypoint.sh", "runserver", "0.0.0.0:80"]
