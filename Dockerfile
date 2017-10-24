@@ -1,29 +1,35 @@
-FROM python:2.7
+FROM ubuntu:16.04
 
 ## Install our dependencies
 RUN apt-get update \
     && apt-get -y install \
+        build-essential \
+        git \
         libxml2-dev \
         libxslt1-dev \
-        zlib1g-dev \
         openssh-client \
-        build-essential \
+        python \
+        python-pip \
+        python-setuptools \
+        python-virtualenv \
+        python-wheel \
+        python3 \
+        python3-pip \
+        python3-setuptools \
+        python3-virtualenv \
+        python3-wheel \
+        texlive-fonts-recommended \
         texlive-latex-base \
         texlive-latex-extra \
         texlive-latex-recommended \
-        texlive-fonts-recommended \
-        python3 \
-        python3-pip \
-        python3-wheel \
-        python3-setuptools \
-        python3-virtualenv \
+        zlib1g-dev \
     && apt-get -y autoremove \
     && apt-get clean
 
 WORKDIR /usr/src/app/readthedocs.org
 
 ## Install the python deps
-RUN pip install setuptools==19.2
+RUN pip install --upgrade setuptools==19.2 pip
 COPY readthedocs.org/requirements.txt ./
 COPY readthedocs.org/requirements/ ./requirements/
 RUN pip install -r requirements.txt
@@ -38,6 +44,9 @@ RUN echo "    IdentityFile /root/.ssh/id_rsa" >> /etc/ssh/ssh_config
 
 ## Move over our hotfix for Version links
 COPY conf.py.tmpl ./readthedocs/doc_builder/templates/doc_builder/conf.py.tmpl
+
+## Make sure we have the right host
+RUN echo "0.0.0.0 docs.planfront.net" >> /etc/hosts
 
 ## This is a volume for our database
 VOLUME ["/persistent"]
