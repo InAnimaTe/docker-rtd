@@ -3,7 +3,15 @@ node {
 
     stage('checkout') {
         // Clone repo
-        checkout scm
+        checkout([
+            $class: 'GitSCM',
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [
+                [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]
+            ],
+            submoduleCfg: [],
+            userRemoteConfigs: [[]]
+        ])
     }
 
     stage('build') {

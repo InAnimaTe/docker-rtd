@@ -1,10 +1,16 @@
-FROM ubuntu:16.04
+FROM 723151894364.dkr.ecr.us-east-1.amazonaws.com/pg-docker:dev
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get install -y tzdata \
+    && ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
+    && dpkg-reconfigure --frontend noninteractive tzdata
 
 ## Install our dependencies
 RUN apt-get update \
     && apt-get -y install \
         build-essential \
         git \
+        libpq-dev \
         libxml2-dev \
         libxslt1-dev \
         openssh-client \
