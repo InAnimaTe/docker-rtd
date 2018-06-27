@@ -43,8 +43,6 @@ RUN pip install -r requirements.txt
 ## Import our private key for cloning private repos
 RUN mkdir /root/.ssh
 RUN chmod 700 /root/.ssh
-COPY key/id_rsa /root/.ssh/id_rsa
-RUN chmod 700 /root/.ssh/id_rsa
 RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 RUN echo "    IdentityFile /root/.ssh/id_rsa" >> /etc/ssh/ssh_config
 
