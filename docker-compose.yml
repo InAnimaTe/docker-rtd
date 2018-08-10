@@ -13,6 +13,7 @@ services:
             - ./local_settings.py.example:/usr/src/app/readthedocs.org/readthedocs/settings/local_settings.py
             - ./conf.py.tmpl:/usr/src/app/readthedocs.org/readthedocs/doc_builder/templates/doc_builder/conf.py.tmpl
             - ./key/id_rsa:/root/.ssh/id_rsa
+            - /mnt/rtd/user_builds:/usr/src/app/readthedocs.org/user_builds
         environment:
             - "TEST_DATA=no"
             - "RTD_PRODUCTION_DOMAIN=docs.planfront.net:80"
