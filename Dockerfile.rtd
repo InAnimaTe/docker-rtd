@@ -1,10 +1,16 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y tzdata \
+    && ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
+    && dpkg-reconfigure --frontend noninteractive tzdata
 
 ## Install our dependencies
 RUN apt-get update \
     && apt-get -y install \
         build-essential \
         git \
+        libpq-dev \
         libxml2-dev \
         libxslt1-dev \
         openssh-client \
@@ -37,8 +43,6 @@ RUN pip install -r requirements.txt
 ## Import our private key for cloning private repos
 RUN mkdir /root/.ssh
 RUN chmod 700 /root/.ssh
-COPY key/id_rsa /root/.ssh/id_rsa
-RUN chmod 700 /root/.ssh/id_rsa
 RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 RUN echo "    IdentityFile /root/.ssh/id_rsa" >> /etc/ssh/ssh_config
 
