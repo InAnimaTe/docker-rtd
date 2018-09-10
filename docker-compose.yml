@@ -2,6 +2,8 @@ version: "2"
 services:
     rtd:
         hostname: docs.planfront.net
+        ports:
+            - "80:80"
         restart: always
         build:
             context: .
@@ -22,15 +24,6 @@ services:
         links:
             - elasticsearch
             - redis
-    nginx:
-        restart: always
-        image: nginx:1.9
-        ports:
-            - "80:80"
-        volumes:
-            - ./default.conf:/etc/nginx/conf.d/default.conf
-        links:
-            - rtd
     elasticsearch:
         restart: always
         build:
